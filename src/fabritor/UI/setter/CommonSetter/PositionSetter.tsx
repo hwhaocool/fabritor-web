@@ -1,6 +1,5 @@
-import { Button, Form, Row, Col, InputNumber, Switch } from 'antd';
+import { Form, Row, Col, InputNumber, Switch } from 'antd';
 import { useContext, useEffect, useRef, useState } from 'react';
-import MoreConfigWrapper from '../Form/MoreConfigWrapper';
 import { GloablStateContext } from '@/context';
 import { useTranslation } from '@/i18n/utils';
 
@@ -34,7 +33,6 @@ const noScaledSizeTypes = ['textbox', 'f-text', 'rect'];
 export default function PositionSetter () {
   const { editor, object } = useContext(GloablStateContext);
   const { t } = useTranslation();
-  const [showMore, setShowMore] = useState(false);
   const isNoScaledSizeTypeRef = useRef(false);
   const [form] = Form.useForm();
 
@@ -105,63 +103,52 @@ export default function PositionSetter () {
   }
 
   useEffect(() => {
-    if (showMore && object && !object.group || object.type !== 'activeSelection') {
+    if (object && !object.group || object.type !== 'activeSelection') {
       init();
     }
-  }, [object, showMore]);
+  }, [object]);
 
   return (
-    <>
-      <Button block onClick={() => { setShowMore(true) }}>{t('setter.common.adjust_position')}</Button>
-      <MoreConfigWrapper
-        open={showMore}
-        setOpen={setShowMore}
-        title={t('setter.common.adjust_position')}
-      >
-        <div style={{ marginTop: 24 }}>
-          <Form
-            form={form}
-            layout="vertical"
-            colon={false}
-            onValuesChange={handleChange}
-          >
-            <Row gutter={8}>
-              <Col span={8}>
-                <FormItem label={`${t('setter.size.width')}(${t('setter.common.px')})`} name="width">
-                  <PxInputNumber min={1} />
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem label={`${t('setter.size.height')}(${t('setter.common.px')})`} name="height">
-                  <PxInputNumber min={1} />
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem label={t('setter.common.lock_ratio')} name="lockRatio" valuePropName="checked">
-                  <Switch disabled />
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={8}>
-              <Col span={8}>
-                <FormItem label={`X(${t('setter.common.px')})`} name="left">
-                  <PxInputNumber />
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem label={`Y(${t('setter.common.px')})`} name="top">
-                  <PxInputNumber />
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem label={`${t('setter.common.rotate')}(°)`} name="angle">
-                  <PxInputNumber min={-360} max={360} precision={0} />
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-      </MoreConfigWrapper>
-    </>
+    <Form
+      form={form}
+      layout="vertical"
+      colon={false}
+      onValuesChange={handleChange}
+    >
+      <Row gutter={8}>
+        <Col span={8}>
+          <FormItem label={`${t('setter.size.width')}(${t('setter.common.px')})`} name="width">
+            <PxInputNumber min={1} />
+          </FormItem>
+        </Col>
+        <Col span={8}>
+          <FormItem label={`${t('setter.size.height')}(${t('setter.common.px')})`} name="height">
+            <PxInputNumber min={1} />
+          </FormItem>
+        </Col>
+        <Col span={8}>
+          <FormItem label={t('setter.common.lock_ratio')} name="lockRatio" valuePropName="checked">
+            <Switch disabled />
+          </FormItem>
+        </Col>
+      </Row>
+      <Row gutter={8}>
+        <Col span={8}>
+          <FormItem label={`X(${t('setter.common.px')})`} name="left">
+            <PxInputNumber />
+          </FormItem>
+        </Col>
+        <Col span={8}>
+          <FormItem label={`Y(${t('setter.common.px')})`} name="top">
+            <PxInputNumber />
+          </FormItem>
+        </Col>
+        <Col span={8}>
+          <FormItem label={`${t('setter.common.rotate')}(°)`} name="angle">
+            <PxInputNumber min={-360} max={360} precision={0} />
+          </FormItem>
+        </Col>
+      </Row>
+    </Form>
   )
 }

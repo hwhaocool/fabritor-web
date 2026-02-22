@@ -126,6 +126,7 @@
       "ung": "UnGroup"
     },
     "common": {
+      "position_size": "Position & Size",
       "align": "Align",
       "center": "Center",
       "align_left": "Align Left",

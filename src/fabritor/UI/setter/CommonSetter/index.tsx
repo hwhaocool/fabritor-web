@@ -186,6 +186,7 @@ export default function CommonSetter () {
         }
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
+      <span style={{ fontWeight: 'bold' }}>{t('setter.common.position_size')}</span>
       <PositionSetter />
     </>
   )
