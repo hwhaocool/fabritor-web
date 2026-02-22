@@ -95,7 +95,11 @@
     "sketch": {
       "title": "Canvas",
       "size": "Canvas Size",
-      "fill": "Canvas Background Color"
+      "fill": "Canvas Background",
+      "solid": "Solid",
+      "linear": "Linear Gradient",
+      "radial": "Radial Gradient",
+      "gradient_presets": "Gradient Presets"
     },
     "text": {
       "font_family": "Font",

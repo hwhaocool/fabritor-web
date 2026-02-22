@@ -12,6 +12,12 @@
 }
 
 @font-face {
+  font-family: "造字工房拙影体";
+  src: url("./assets/fonts/造字工房拙影体.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
   font-family: "霞鹜新晰黑";
   src: url("./assets/fonts/LXGWNeoXiHei.ttf");
   font-display: swap;

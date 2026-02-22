@@ -38,6 +38,10 @@ export const FONT_PRESET_FAMILY_LIST = [
     label: <span style={{ fontFamily: 'SmileySans', fontSize: 16 }}>得意黑</span>, 
     value: 'SmileySans' 
   },
+  {
+    label: <span style={{ fontFamily: '造字工房拙影体', fontSize: 16 }}>造字工房拙影体</span>, 
+    value: '造字工房拙影体' 
+  },
   { 
     label: <span style={{ fontFamily: '霞鹜新晰黑', fontSize: 16 }}>霞鹜新晰黑</span>, 
     value: '霞鹜新晰黑' 

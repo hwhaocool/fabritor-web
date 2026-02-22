@@ -95,7 +95,11 @@
     "sketch": {
       "title": "画布",
       "size": "画布尺寸",
-      "fill": "画布背景色"
+      "fill": "画布背景",
+      "solid": "纯色",
+      "linear": "线性渐变",
+      "radial": "径向渐变",
+      "gradient_presets": "渐变预设"
     },
     "text": {
       "font_family": "字体",
