@@ -66,6 +66,11 @@
       "title": "素材",
       "line": "线条",
       "shape": "形状",
+      "path_shapes": "路径形状",
+      "rectangle": "矩形",
+      "common": "常用形状",
+      "arrow": "箭头",
+      "icon": "图标",
       "hand_drawn": "手绘风格"
     },
     "paint": {

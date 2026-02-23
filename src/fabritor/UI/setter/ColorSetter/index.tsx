@@ -37,7 +37,7 @@ export default function ColorSetter (props) {
   // }
 
   const calcTriggerBg = () => {
-    if (value?.type === 'solid') {
+    if (value?.type === 'solid' && value.color) {
       const c = new Color(value.color);
       if (c.toHexString() === '#ffffff') {
         return 'rgba(103,103,103,0.24)';

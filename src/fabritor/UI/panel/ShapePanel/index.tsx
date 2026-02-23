@@ -1,4 +1,4 @@
-import { Flex, Tag } from 'antd';
+import { Flex, Tag, Collapse, Empty } from 'antd';
 import Title from '@/fabritor/components/Title';
 import LineTypeList from './line-type-list';
 import ShapeTypeList from './shape-type-list';
@@ -11,6 +11,8 @@ import { GloablStateContext } from '@/context';
 import { createPathFromSvg } from '@/editor/objects/path';
 import Center from '@/fabritor/components/Center';
 import { useTranslation } from '@/i18n/utils';
+import { PATH_SHAPE_LIBRARY } from '@/config/pathShapeLibrary';
+import type { PathShapeItem } from '@/types/shape';
 
 export default function ShapePanel () {
   const { editor, roughSvg } = useContext(GloablStateContext);
@@ -83,6 +85,29 @@ export default function ShapePanel () {
     createPathFromSvg({ svgString, canvas, sub_type: 'rough' });
   }
 
+  const addPathShape = (item: PathShapeItem, category: string) => {
+    const { path, viewBox, special } = item;
+    const canvas = editor.canvas;
+
+    // Create SVG string
+    const svgString = `<svg viewBox="0 0 ${viewBox[0]} ${viewBox[1]}" xmlns="http://www.w3.org/2000/svg">${special ?
+      `<path fill="#555555" d="${path}" />` :
+      `<path fill="#555555" d="${path}" />`
+    }</svg>`;
+
+    createPathFromSvg({
+      svgString,
+      canvas,
+      sub_type: category,
+      width: 200,
+      height: 200
+    });
+  }
+
+  const getCategoryTranslation = (category: string) => {
+    return t(`panel.material.${category}`, category);
+  }
+
   return (
     <div className="fabritor-panel-wrapper">
       <Title>{t('panel.material.line')}</Title>
@@ -113,6 +138,34 @@ export default function ShapePanel () {
           ))
         }
       </Flex>
+      <Title>{t('panel.material.path_shapes')}</Title>
+      <Collapse
+        items={PATH_SHAPE_LIBRARY.map(category => ({
+          key: category.type,
+          label: getCategoryTranslation(category.type),
+          children: (
+            <Flex gap={10} wrap="wrap" justify="space-around">
+              {category.children.map((item: PathShapeItem, index: number) => (
+                <div
+                  key={`${category.type}-${index}`}
+                  onClick={() => { addPathShape(item, category.type) }}
+                  className="fabritor-panel-shape-item"
+                  title={`${getCategoryTranslation(category.type)} - ${index + 1}`}
+                >
+                  <img
+                    src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(
+                      `<svg viewBox="0 0 ${item.viewBox[0]} ${item.viewBox[1]}" xmlns="http://www.w3.org/2000/svg"><path fill="#555555" d="${item.path}" /></svg>`
+                    )}`}
+                    style={{ width: 48, height: 48 }}
+                    alt={`${getCategoryTranslation(category.type)}-${index + 1}`}
+                  />
+                </div>
+              ))}
+            </Flex>
+          ),
+        }))}
+        defaultActiveKey={[]}
+      />
       <Title>
         <div style={{ position: 'relative' }}>
           <span>{t('panel.material.hand_drawn')}</span>

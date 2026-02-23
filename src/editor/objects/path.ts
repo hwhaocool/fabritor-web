@@ -20,9 +20,19 @@ export const loadSvgFromUrl = async (url) => {
 }
 
 export const createPathFromSvg = async (options) => {
-  const { svgString, canvas, ...rest } = options || {};
+  const { svgString, canvas, width, height, ...rest } = options || {};
 
   const svg = await loadSvgFromString(svgString) as fabric.Path;
+
+  // If width and height are specified, scale the SVG to those dimensions
+  if (width && height) {
+    // Calculate the scale factor based on the current dimensions
+    const scale = Math.min(
+      width / (svg.width || 1),
+      height / (svg.height || 1)
+    );
+    svg.scale(scale);
+  }
 
   svg.set({
     ...rest,

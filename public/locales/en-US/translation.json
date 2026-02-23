@@ -66,6 +66,11 @@
       "title": "Material",
       "line": "Line",
       "shape": "Shape",
+      "path_shapes": "Path Shapes",
+      "rectangle": "Rectangle",
+      "common": "Common Shapes",
+      "arrow": "Arrow",
+      "icon": "Icon",
       "hand_drawn": "Hand-Drawn"
     },
     "paint": {
