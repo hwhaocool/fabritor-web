@@ -112,7 +112,6 @@ export default function ShapePanel () {
 
   const getItemName = (item: PathShapeItem, category: string, index: number) => {
     const name = item.name || `${getCategoryTranslation(category)} - ${index + 1}`;
-    console.log('getItemName:', { name, item, category, index });
     return name;
   }
 

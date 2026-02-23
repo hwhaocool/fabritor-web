@@ -11,7 +11,7 @@ export default function EmojiPanel (props) {
   const { back } = props;
   const { editor } = useContext(GloablStateContext);
   const [searchParams] = useSearchParams();
-  const lng = searchParams.get('lng') || 'en-US';
+  const lng = searchParams.get('lng') || 'zh-CN';
   const [emojiLocale, setEmojiLocale] = useState('en');
 
   const handleEmojiSelect = async (emoji) => {
