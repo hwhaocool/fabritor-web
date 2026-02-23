@@ -42,6 +42,7 @@ export interface PathShapeItem {
   pathFormula?: ShapePathFormulasKeys;
   special?: boolean;
   outlined?: boolean;
+  name?: string;
 }
 
 // 箭头类型接口

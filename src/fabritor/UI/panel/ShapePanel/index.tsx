@@ -14,6 +14,8 @@ import { useTranslation } from '@/i18n/utils';
 import { PATH_SHAPE_LIBRARY } from '@/config/pathShapeLibrary';
 import type { PathShapeItem } from '@/types/shape';
 
+console.log('PATH_SHAPE_LIBRARY:', PATH_SHAPE_LIBRARY);
+
 export default function ShapePanel () {
   const { editor, roughSvg } = useContext(GloablStateContext);
   const { t } = useTranslation();
@@ -108,6 +110,12 @@ export default function ShapePanel () {
     return t(`panel.material.${category}`, category);
   }
 
+  const getItemName = (item: PathShapeItem, category: string, index: number) => {
+    const name = item.name || `${getCategoryTranslation(category)} - ${index + 1}`;
+    console.log('getItemName:', { name, item, category, index });
+    return name;
+  }
+
   return (
     <div className="fabritor-panel-wrapper">
       <Title>{t('panel.material.line')}</Title>
@@ -150,14 +158,14 @@ export default function ShapePanel () {
                   key={`${category.type}-${index}`}
                   onClick={() => { addPathShape(item, category.type) }}
                   className="fabritor-panel-shape-item"
-                  title={`${getCategoryTranslation(category.type)} - ${index + 1}`}
+                  title={getItemName(item, category.type, index)}
                 >
                   <img
                     src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(
                       `<svg viewBox="0 0 ${item.viewBox[0]} ${item.viewBox[1]}" xmlns="http://www.w3.org/2000/svg"><path fill="#555555" d="${item.path}" /></svg>`
                     )}`}
                     style={{ width: 48, height: 48 }}
-                    alt={`${getCategoryTranslation(category.type)}-${index + 1}`}
+                    alt={getItemName(item, category.type, index)}
                   />
                 </div>
               ))}
