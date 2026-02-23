@@ -1,6 +1,6 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
-import { useContext } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled } from '@ant-design/icons';
+import React, { useContext, useState, useCallback } from 'react';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -8,6 +8,8 @@ import PaintPanel from './PaintPanel';
 import DesignPanel from './DesignPanel';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
+import JsonPanel from './JsonPanel';
+import TipsPanel from './TipsPanel';
 import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
@@ -21,6 +23,14 @@ const siderStyle: React.CSSProperties = {
   backgroundColor: '#fff',
   borderRight: '1px solid #e8e8e8'
 };
+
+// Context for TipsPanel to communicate width changes
+export interface TipsPanelContextValue {
+  panelWidth: number;
+  onWidthChange: (width: number) => void;
+}
+
+export const TipsPanelContext = React.createContext<TipsPanelContextValue | null>(null);
 
 const iconStyle = { fontSize: 18, marginRight: 0 };
 
@@ -54,11 +64,27 @@ const OBJECT_TYPES = [
     label: <Trans i18nKey="panel.app.title" />,
     value: 'app',
     icon: <AppstoreOutlined style={iconStyle} />
+  },
+  {
+    label: <Trans i18nKey="panel.json.title" />,
+    value: 'json',
+    icon: <CodeOutlined style={iconStyle} />
+  },
+  {
+    label: <Trans i18nKey="panel.tips.title" />,
+    value: 'tips',
+    icon: <BookOutlined style={iconStyle} />
   }
 ];
 
 export default function Panel () {
   const { editor } = useContext(GloablStateContext);
+  const [activeTab, setActiveTab] = useState('design');
+  const [tipsPanelWidth, setTipsPanelWidth] = useState(PANEL_WIDTH);
+
+  const handleWidthChange = useCallback((width: number) => {
+    setTipsPanelWidth(width);
+  }, []);
 
   const renderPanel = (value) => {
     if (value === 'design') {
@@ -79,6 +105,16 @@ export default function Panel () {
     if (value === 'app') {
       return <AppPanel />;
     }
+    if (value === 'json') {
+      return <JsonPanel />;
+    }
+    if (value === 'tips') {
+      return (
+        <TipsPanelContext.Provider value={{ panelWidth: tipsPanelWidth, onWidthChange: handleWidthChange }}>
+          <TipsPanel />
+        </TipsPanelContext.Provider>
+      );
+    }
     return null;
   }
 
@@ -92,6 +128,7 @@ export default function Panel () {
   }
 
   const handleTabChange = (k) => {
+    setActiveTab(k);
     if (editor?.canvas) {
       if (k === 'paint') {
         editor.canvas.isDrawingMode = true;
@@ -103,8 +140,11 @@ export default function Panel () {
 
   return (
     <Sider
-      style={siderStyle}
-      width={PANEL_WIDTH}
+      style={{
+        ...siderStyle,
+        transition: activeTab === 'tips' ? 'none' : siderStyle.transition
+      }}
+      width={activeTab === 'tips' ? tipsPanelWidth : PANEL_WIDTH}
       className="fabritor-sider"
     >
       <Tabs

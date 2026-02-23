@@ -85,6 +85,13 @@
       "only_image_url": "Only Support Image Url",
       "add": "Add",
       "more": "More Config"
+    },
+    "json": {
+      "title": "JSON"
+    },
+    "tips": {
+      "title": "Tips",
+      "load_error": "Failed to load tips"
     }
   },
   "setter": {

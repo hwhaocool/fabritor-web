@@ -85,6 +85,13 @@
       "only_image_url": "仅支持图片链接",
       "add": "添加到画布",
       "more": "更多设置"
+    },
+    "json": {
+      "title": "JSON"
+    },
+    "tips": {
+      "title": "说明",
+      "load_error": "加载说明失败"
     }
   },
   "setter": {

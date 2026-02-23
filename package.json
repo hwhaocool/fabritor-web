@@ -22,6 +22,8 @@
     "react-colors-beauty": "1.0.3",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "roughjs": "^4.6.6",
     "uuid": "^9.0.1"
   },
