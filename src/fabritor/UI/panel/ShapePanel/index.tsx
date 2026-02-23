@@ -126,6 +126,7 @@ export default function ShapePanel () {
               key={item.key}
               onClick={() => { addLine(item) }}
               className="fabritor-panel-shape-item"
+              data-testid={`fabritor-btn-line-${item.key}`}
             >
               <img src={`data:image/svg+xml,${encodeURIComponent(item.svg)}`} alt="" style={{ width: 48, height: 48 }} />
             </div>
@@ -140,6 +141,7 @@ export default function ShapePanel () {
               key={item.key}
               onClick={() => { addShape(item) }}
               className="fabritor-panel-shape-item"
+              data-testid={`fabritor-btn-shape-${item.key}`}
             >
               <img src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(item.elem)}`} style={{ width: 64, height: 64 }} />
             </div>
@@ -159,6 +161,7 @@ export default function ShapePanel () {
                   onClick={() => { addPathShape(item, category.type) }}
                   className="fabritor-panel-shape-item"
                   title={getItemName(item, category.type, index)}
+                  data-testid={`fabritor-btn-path-${category.type}-${index}`}
                 >
                   <img
                     src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(
@@ -187,6 +190,7 @@ export default function ShapePanel () {
               key={item.key}
               onClick={() => { addRough(item) }}
               className="fabritor-panel-shape-item"
+              data-testid={`fabritor-btn-rough-${item.key}`}
             >
               <Center style={{ width: 64, height: 64 }}>
                 <img src={item.elem} style={{ width: 64 }} />

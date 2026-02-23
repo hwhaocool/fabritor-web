@@ -20,6 +20,7 @@ export default function AlignSetter (props) {
     <Radio.Group
       value={value}
       {...rest}
+      data-testid="fabritor-text-align"
       options={TEXT_ALIGN_LIST}
       optionType="button"
       buttonStyle="solid"

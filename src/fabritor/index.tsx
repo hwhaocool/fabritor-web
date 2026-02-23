@@ -10,6 +10,7 @@ import ContextMenu from './components/ContextMenu';
 import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
 import rough from 'roughjs';
+import { exposeAPI } from '@/api';
 
 import '../font.css';
 
@@ -111,6 +112,9 @@ export default function Fabritor () {
     setEditor(_editor);
     setReady(true);
     setActiveObject(_editor.sketch);
+
+    // Expose API to window for automation
+    exposeAPI(_editor);
   }
 
   const initRoughSvg = () => {

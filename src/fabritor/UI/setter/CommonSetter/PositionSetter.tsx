@@ -118,34 +118,34 @@ export default function PositionSetter () {
       <Row gutter={8}>
         <Col span={8}>
           <FormItem label={`${t('setter.size.width')}(${t('setter.common.px')})`} name="width">
-            <PxInputNumber min={1} />
+            <PxInputNumber min={1} data-testid="fabritor-input-width" />
           </FormItem>
         </Col>
         <Col span={8}>
           <FormItem label={`${t('setter.size.height')}(${t('setter.common.px')})`} name="height">
-            <PxInputNumber min={1} />
+            <PxInputNumber min={1} data-testid="fabritor-input-height" />
           </FormItem>
         </Col>
         <Col span={8}>
           <FormItem label={t('setter.common.lock_ratio')} name="lockRatio" valuePropName="checked">
-            <Switch disabled />
+            <Switch disabled data-testid="fabritor-switch-lock-ratio" />
           </FormItem>
         </Col>
       </Row>
       <Row gutter={8}>
         <Col span={8}>
           <FormItem label={`X(${t('setter.common.px')})`} name="left">
-            <PxInputNumber />
+            <PxInputNumber data-testid="fabritor-input-x" />
           </FormItem>
         </Col>
         <Col span={8}>
           <FormItem label={`Y(${t('setter.common.px')})`} name="top">
-            <PxInputNumber />
+            <PxInputNumber data-testid="fabritor-input-y" />
           </FormItem>
         </Col>
         <Col span={8}>
           <FormItem label={`${t('setter.common.rotate')}(°)`} name="angle">
-            <PxInputNumber min={-360} max={360} precision={0} />
+            <PxInputNumber min={-360} max={360} precision={0} data-testid="fabritor-input-angle" />
           </FormItem>
         </Col>
       </Row>

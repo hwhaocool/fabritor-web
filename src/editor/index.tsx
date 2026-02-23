@@ -12,6 +12,7 @@ import FabricHistory from './extensions/history';
 import AutoSave from './extensions/autosave';
 import { createGroup } from './objects/group';
 import createCustomClass from './custom-objects';
+import { setupObjectIdSystem } from '@/api/objectId';
 import { HOVER_OBJECT_CORNER, HOVER_OBJECT_CONTROL, CAPTURE_SUBTARGET_WHEN_DBLCLICK, LOAD_JSON_IGNORE_LOAD_FONT } from '@/config';
 import { translate } from '@/i18n/utils';
 export default class Editor {
@@ -56,6 +57,7 @@ export default class Editor {
     initObjectPrototype();
     createCustomClass();
     initControl();
+    setupObjectIdSystem();
   }
 
   private _initCanvas () {

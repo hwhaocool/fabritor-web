@@ -15,37 +15,44 @@ const ALIGH_TYPES = [
   {
     label: <Trans i18nKey="setter.common.center" />,
     icon: PicCenterOutlined,
-    key: 'center'
+    key: 'center',
+    testId: 'fabritor-btn-align-center'
   },
   {
     label: <Trans i18nKey="setter.common.align_left" />,
     icon: AlignLeftOutlined,
-    key: 'left'
+    key: 'left',
+    testId: 'fabritor-btn-align-left'
   },
   {
     label: <Trans i18nKey="setter.common.center_h" />,
     icon: AlignCenterOutlined,
-    key: 'centerH'
+    key: 'centerH',
+    testId: 'fabritor-btn-align-center-h'
   },
   {
     label: <Trans i18nKey="setter.common.align_right" />,
     icon: AlignRightOutlined,
-    key: 'right'
+    key: 'right',
+    testId: 'fabritor-btn-align-right'
   },
   {
     label: <Trans i18nKey="setter.common.align_top" />,
     icon: VerticalAlignTopOutlined,
-    key: 'top'
+    key: 'top',
+    testId: 'fabritor-btn-align-top'
   },
   {
     label: <Trans i18nKey="setter.common.center_v" />,
     icon: VerticalAlignMiddleOutlined,
-    key: 'centerV'
+    key: 'centerV',
+    testId: 'fabritor-btn-align-center-v'
   },
   {
     label: <Trans i18nKey="setter.common.align_bottom" />,
     icon: VerticalAlignBottomOutlined,
-    key: 'bottom'
+    key: 'bottom',
+    testId: 'fabritor-btn-align-bottom'
   }
 ]
 
@@ -126,14 +133,15 @@ export default function CommonSetter () {
         <ToolbarItem
           tooltipProps={{ placement: 'top' }}
           onClick={handleLock} title={lock ? t('setter.common.unlock') : t('setter.common.lock')}
+          data-testid="fabritor-btn-lock"
         >
           {
-            lock ? 
+            lock ?
             <UnlockOutlined style={{ fontSize: 20 }} /> :
             <LockOutlined style={{ fontSize: 20 }} />
           }
         </ToolbarItem>
-        <ToolbarItem tooltipProps={{ placement: 'top' }} title={t('setter.common.opacity')}>
+        <ToolbarItem tooltipProps={{ placement: 'top' }} title={t('setter.common.opacity')} data-testid="fabritor-opacity-control">
           <OpacitySetter
             value={opacity}
             onChange={handleOpacity}
@@ -149,6 +157,7 @@ export default function CommonSetter () {
               await pasteObject(editor.canvas);
             }
           }
+          data-testid="fabritor-btn-copy"
         >
           <CopyOutlined style={{ fontSize: 20 }} />
         </ToolbarItem>
@@ -156,6 +165,7 @@ export default function CommonSetter () {
           tooltipProps={{ placement: 'top' }}
           title={t('setter.common.del')}
           onClick={() => { removeObject(null, editor.canvas); }}
+          data-testid="fabritor-btn-delete"
         >
           <DeleteOutlined style={{ fontSize: 20 }} />
         </ToolbarItem>
@@ -164,13 +174,14 @@ export default function CommonSetter () {
           <ToolbarItem
             tooltipProps={{ placement: 'top' }}
             title={t('setter.common.flip')}
+            data-testid="fabritor-flip-control"
           >
             <FlipSetter onChange={handleFlip} />
           </ToolbarItem> : null
         }
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
-      <span style={{ fontWeight: 'bold' }}>{t('setter.common.align')}</span>
+      <span style={{ fontWeight: 'bold' }}>{t('setter.setter.common.align')}</span>
       <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
         {
           ALIGH_TYPES.map(item => (
@@ -179,6 +190,7 @@ export default function CommonSetter () {
               title={item.label}
               key={item.key}
               onClick={() => { alignObject(item.key); }}
+              data-testid={item.testId}
             >
               <item.icon style={{ fontSize: 20 }} />
             </ToolbarItem>
@@ -187,7 +199,9 @@ export default function CommonSetter () {
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
       <span style={{ fontWeight: 'bold' }}>{t('setter.common.position_size')}</span>
-      <PositionSetter />
+      <div data-testid="fabritor-position-setter">
+        <PositionSetter />
+      </div>
     </>
   )
 }
