@@ -11,6 +11,7 @@ import { SKETCH_ID } from '@/utils/constants';
 import ObjectRotateAngleTip from './components/ObjectRotateAngleTip';
 import rough from 'roughjs';
 import { exposeAPI } from '@/api';
+import { ApiPanelContext, ApiPanelContextValue } from './UI/panel/ApiPanelContext';
 
 import '../font.css';
 
@@ -39,6 +40,8 @@ export default function Fabritor () {
   const [activeObject, setActiveObject] = useState<fabric.Object | null | undefined>(null);
   const [isReady, setReady] = useState(false);
   const contextMenuRef = useRef<any>(null);
+  const [isApiPanelActive, setIsApiPanelActive] = useState(false);
+  const apiPanelValue: ApiPanelContextValue = { isApiPanelActive, setApiPanelActive: setIsApiPanelActive };
 
   const clickHandler = (opt) => {
     const { target } = opt;
@@ -150,24 +153,33 @@ export default function Fabritor () {
         roughSvg
       }}
     >
-      <Layout style={{ height: '100%' }} className="fabritor-layout">
-        <Spin spinning={!isReady} fullscreen />
-        <ObjectRotateAngleTip />
-        <Header />
-        <Layout>
-          <Panel />
-          <Content style={contentStyle}>
-            <ContextMenu ref={contextMenuRef} object={activeObject}>
-              <div style={workspaceStyle} ref={workspaceEl} className="fabritor-workspace">
-                <canvas ref={canvasEl} />
-              </div>
-            </ContextMenu>
-          </Content>
-          <Setter />
-        </Layout>
+      <ApiPanelContext.Provider value={apiPanelValue}>
+        <Layout style={{ height: '100%' }} className="fabritor-layout">
+          <Spin spinning={!isReady} fullscreen />
+          <ObjectRotateAngleTip />
+          <Header />
+          <Layout>
+            <Panel />
+            <Content style={contentStyle}>
+              <ContextMenu ref={contextMenuRef} object={activeObject}>
+                <div
+                  style={{
+                    ...workspaceStyle,
+                    display: isApiPanelActive ? 'none' : 'block'
+                  }}
+                  ref={workspaceEl}
+                  className="fabritor-workspace"
+                >
+                  <canvas ref={canvasEl} />
+                </div>
+              </ContextMenu>
+            </Content>
+            {!isApiPanelActive && <Setter />}
+          </Layout>
 
-        <svg id="fabritor-rough-svg" ref={roughSvgEl} />
-      </Layout>
+          <svg id="fabritor-rough-svg" ref={roughSvgEl} />
+        </Layout>
+      </ApiPanelContext.Provider>
     </GloablStateContext.Provider>
   )
 }

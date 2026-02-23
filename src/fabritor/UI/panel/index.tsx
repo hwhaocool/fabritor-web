@@ -1,6 +1,6 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
 import React, { useContext, useState, useCallback } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined } from '@ant-design/icons';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined, ApiOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -10,9 +10,15 @@ import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 import JsonPanel from './JsonPanel';
 import TipsPanel from './TipsPanel';
+import ApiPanel from './ApiPanel';
 import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
+// @ts-ignore
+import { ApiPanelContext } from './ApiPanelContext';
+
+// @ts-ignore
+import './index.scss';
 
 import './index.scss';
 
@@ -32,6 +38,7 @@ export interface TipsPanelContextValue {
 
 export const TipsPanelContext = React.createContext<TipsPanelContextValue | null>(null);
 
+// @ts-ignore
 const iconStyle = { fontSize: 18, marginRight: 0 };
 
 const OBJECT_TYPES = [
@@ -71,6 +78,11 @@ const OBJECT_TYPES = [
     icon: <CodeOutlined style={iconStyle} />
   },
   {
+    label: <Trans i18nKey="panel.api.title" />,
+    value: 'api',
+    icon: <ApiOutlined style={iconStyle} />
+  },
+  {
     label: <Trans i18nKey="panel.tips.title" />,
     value: 'tips',
     icon: <BookOutlined style={iconStyle} />
@@ -81,12 +93,27 @@ export default function Panel () {
   const { editor } = useContext(GloablStateContext);
   const [activeTab, setActiveTab] = useState('design');
   const [tipsPanelWidth, setTipsPanelWidth] = useState(PANEL_WIDTH);
+  const apiPanelContext = useContext(ApiPanelContext);
 
   const handleWidthChange = useCallback((width: number) => {
     setTipsPanelWidth(width);
   }, []);
 
-  const renderPanel = (value) => {
+  const handleTabChange = (k: string) => {
+    setActiveTab(k);
+    if (apiPanelContext?.setApiPanelActive) {
+      apiPanelContext.setApiPanelActive(k === 'api');
+    }
+    if (editor?.canvas) {
+      if (k === 'paint') {
+        editor.canvas.isDrawingMode = true;
+      } else {
+        editor.canvas.isDrawingMode = false;
+      }
+    }
+  };
+
+  const renderPanel = (value: string) => {
     if (value === 'design') {
       return <DesignPanel />;
     }
@@ -108,6 +135,9 @@ export default function Panel () {
     if (value === 'json') {
       return <JsonPanel />;
     }
+    if (value === 'api') {
+      return <ApiPanel />;
+    }
     if (value === 'tips') {
       return (
         <TipsPanelContext.Provider value={{ panelWidth: tipsPanelWidth, onWidthChange: handleWidthChange }}>
@@ -116,27 +146,16 @@ export default function Panel () {
       );
     }
     return null;
-  }
+  };
 
-  const renderLabel = (item) => {
+  const renderLabel = (item: any) => {
     return (
       <Flex vertical justify="center">
         <div>{item.icon}</div>
         <div>{item.label}</div>
       </Flex>
-    )
-  }
-
-  const handleTabChange = (k) => {
-    setActiveTab(k);
-    if (editor?.canvas) {
-      if (k === 'paint') {
-        editor.canvas.isDrawingMode = true;
-      } else {
-        editor.canvas.isDrawingMode = false;
-      }
-    }
-  }
+    );
+  };
 
   return (
     <Sider
@@ -152,15 +171,11 @@ export default function Panel () {
         style={{ flex: 1, overflow: 'auto' }}
         size="small"
         onChange={handleTabChange}
-        items={
-          OBJECT_TYPES.map((item) => {
-            return {
-              label: renderLabel(item),
-              key: item.value,
-              children: renderPanel(item.value)
-            };
-          })
-        }
+        items={OBJECT_TYPES.map((item: any) => ({
+          label: renderLabel(item),
+          key: item.value,
+          children: renderPanel(item.value)
+        }))}
       />
       <FloatButton.Group shape="circle" style={{ left: 10, bottom: 14, right: 'auto' }}>
         <FloatButton
@@ -171,5 +186,5 @@ export default function Panel () {
         <LocalesSwitch />
       </FloatButton.Group>
     </Sider>
-  )
+  );
 }

@@ -1,3 +1,4 @@
+import { fabric } from 'fabric';
 import { SKETCH_ID } from '@/utils/constants';
 
 /**
@@ -35,10 +36,10 @@ export function ensureObjectId(obj: any): string {
  * 为fabric对象原型添加ensureObjectId方法
  */
 export function setupObjectIdSystem() {
-  const { Object: FabricObject } = require('fabric');
+  const FabricObject = fabric.Object;
 
   // 重写initialize方法，确保新创建的对象都有ID
-  const originalInitialize = FabricObject.prototype.initialize;
+  const originalInitialize = FabricObject?.prototype?.initialize;
 
   FabricObject.prototype.initialize = function(this: any, options: any) {
     const result = originalInitialize.call(this, options);

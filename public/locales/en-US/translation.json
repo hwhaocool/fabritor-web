@@ -94,6 +94,10 @@
     "json": {
       "title": "JSON"
     },
+    "api": {
+      "title": "API Docs",
+      "load_error": "Failed to load API documentation"
+    },
     "tips": {
       "title": "Tips",
       "load_error": "Failed to load tips"
