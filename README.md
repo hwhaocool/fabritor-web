@@ -31,7 +31,7 @@ fabritor-web 图片编辑器
   </button>
 ```
 
-[api文档](./public/api.md)
+[Fabritor AI Agent API 文档](./public/api.md)
 
 
 ## 以下是原版
