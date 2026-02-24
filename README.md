@@ -1,3 +1,39 @@
+fabritor-web 图片编辑器
+---
+
+## 修改版
+
+添加功能：
+1. 素材-添加了更多的形状
+2. 选项区域把【位置】选项放出来了，无需多点一次
+3. 左侧菜单-新增【Json】，可以直接看到json，可以在这里直接修改json来快速调整
+4. 暴露全局api能力，
+
+
+### Json
+新增了一个json菜单，可以直接看到json，也可以通过修改json来精准修改
+
+### 全局API
+可以通过 `window.fabritor.canvas.getObjects()` 来获取所有对象  
+方便AI通过 浏览器mcp 来快速修改，比如一键对齐 
+
+
+### ARIA
+增强可访问性
+
+利用ARIA属性让AI agent理解UI结构：
+
+```xml
+  <button
+    aria-label="Left align text objects"
+    data-testid="fabritor-btn-align-left"
+  >
+  </button>
+```
+
+
+## 以下是原版
+
 <p align="center"><img alt="logo" src="/public/logo.svg"></p>
 
 <p align="center">
