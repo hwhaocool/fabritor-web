@@ -43,6 +43,7 @@
   "scripts": {
     "start": "ice start --speedup --no-open",
     "build": "ice build",
+    "build:gh": "ice build && node scripts/fix-gh-pages.js",
     "surge": "pnpm build && cd build && surge",
     "eslint": "eslint ./src --cache --ext .js,.jsx,.ts,.tsx",
     "eslint:fix": "pnpm run eslint -- --fix",
