@@ -36,4 +36,24 @@
     z-index: 99;
     background-color: #fff;
   }
+
+  .ant-tabs-content {
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    flexBasis: auto !important;
+  }
+
+  .ant-tabs-content-left {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
+    flexBasis: auto !important;
+  }
+
+  .ant-tabs-tabpane {
+    width: 100% !important;
+    height: 100% !important;
+    flex: 1 1 auto !important;
+  }
 }
