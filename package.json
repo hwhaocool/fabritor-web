@@ -43,11 +43,11 @@
   "scripts": {
     "start": "ice start --speedup",
     "build": "ice build",
-    "surge": "yarn build && cd build && surge",
+    "surge": "pnpm build && cd build && surge",
     "eslint": "eslint ./src --cache --ext .js,.jsx,.ts,.tsx",
-    "eslint:fix": "npm run eslint -- --fix",
+    "eslint:fix": "pnpm run eslint -- --fix",
     "stylelint": "stylelint \"src/**/*.{css,scss,less}\" --cache",
-    "stylelint:fix": "npm run stylelint -- --fix"
+    "stylelint:fix": "pnpm run stylelint -- --fix"
   },
   "publishConfig": {
     "access": "public"

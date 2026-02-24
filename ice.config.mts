@@ -12,4 +12,6 @@ export default defineConfig(() => ({
     onDemand: true,
     format: 'esm',
   },
+  // Use relative paths for build assets
+  publicPath: './',
 }));
