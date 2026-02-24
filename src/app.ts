@@ -3,5 +3,11 @@ import './i18n';
 
 import './font.css';
 
+
 // App config, see https://v3.ice.work/docs/guide/basic/app
-export default defineAppConfig(() => ({}));
+export default defineAppConfig(() => ({
+    // Set your configs here.
+    router: {
+      basename: '/fabritor-web',
+    },
+  }));
