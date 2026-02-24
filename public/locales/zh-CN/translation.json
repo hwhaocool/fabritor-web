@@ -27,7 +27,7 @@
       "svg": "导出为 SVG",
       "json": "导出为 JSON",
       "clipboard": "复制到剪贴板",
-      "load": "加载模板",
+      "load": "加载Json",
       "export": "导出",
       "copy_success": "复制成功",
       "copy_failed": "复制失败，请选择导出到本地"
