@@ -1,6 +1,6 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
 import React, { useContext, useState, useCallback } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined, ApiOutlined } from '@ant-design/icons';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined, ApiOutlined, ImportOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -11,6 +11,7 @@ import AppPanel from './AppPanel';
 import JsonPanel from './JsonPanel';
 import TipsPanel from './TipsPanel';
 import ApiPanel from './ApiPanel';
+import ImportPanel from './ImportPanel';
 import { PANEL_WIDTH } from '@/config';
 import { Trans } from '@/i18n/utils';
 import LocalesSwitch from '@/fabritor/components/LocalesSwitch';
@@ -86,6 +87,11 @@ const OBJECT_TYPES = [
     label: <Trans i18nKey="panel.tips.title" />,
     value: 'tips',
     icon: <BookOutlined style={iconStyle} />
+  },
+  {
+    label: '导入',
+    value: 'import',
+    icon: <ImportOutlined style={iconStyle} />
   }
 ];
 
@@ -94,7 +100,7 @@ export default function Panel () {
   const [activeTab, setActiveTab] = useState('design');
   const [tipsPanelWidth, setTipsPanelWidth] = useState(PANEL_WIDTH);
   const apiPanelContext = useContext(ApiPanelContext);
-  // API panel 占满宽度，使用一个足够大的值
+  // API panel 和 Import panel 占满宽度
   const apiPanelWidth = '100vw';
 
   const handleWidthChange = useCallback((width: number) => {
@@ -104,7 +110,7 @@ export default function Panel () {
   const handleTabChange = (k: string) => {
     setActiveTab(k);
     if (apiPanelContext?.setApiPanelActive) {
-      apiPanelContext.setApiPanelActive(k === 'api');
+      apiPanelContext.setApiPanelActive(k === 'api' || k === 'import');
     }
     if (editor?.canvas) {
       if (k === 'paint') {
@@ -116,6 +122,9 @@ export default function Panel () {
   };
 
   const renderPanel = (value: string) => {
+    if (value === 'import') {
+      return <ImportPanel />;
+    }
     if (value === 'design') {
       return <DesignPanel />;
     }
@@ -165,7 +174,7 @@ export default function Panel () {
         ...siderStyle,
         transition: activeTab === 'tips' ? 'none' : siderStyle.transition
       }}
-      width={activeTab === 'tips' ? tipsPanelWidth : activeTab === 'api' ? apiPanelWidth : PANEL_WIDTH}
+      width={activeTab === 'tips' ? tipsPanelWidth : (activeTab === 'api' || activeTab === 'import') ? apiPanelWidth : PANEL_WIDTH}
       className="fabritor-sider"
     >
       <Tabs
