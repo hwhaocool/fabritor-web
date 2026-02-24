@@ -181,7 +181,7 @@ export default function CommonSetter () {
         }
       </CenterV>
       <Divider style={{ margin: '16px 0' }} />
-      <span style={{ fontWeight: 'bold' }}>{t('setter.setter.common.align')}</span>
+      <span style={{ fontWeight: 'bold' }}>{t('setter.common.align')}</span>
       <CenterV height={30} gap={8} justify="space-between" style={{ marginTop: 16 }}>
         {
           ALIGH_TYPES.map(item => (

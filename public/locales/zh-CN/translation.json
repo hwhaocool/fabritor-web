@@ -50,11 +50,16 @@
     "text": {
       "title": "文字",
       "add": "添加文本框",
+      "add_title": "添加标题",
       "addTitle": "添加标题",
+      "add_subtitle": "添加副标题",
       "addSubTitle": "添加副标题",
+      "add_body_text": "添加一段正文",
       "addContent": "添加一段正文",
+      "add_text_border": "文字边框",
       "addTextWithBorder": "文字边框",
-      "preset": "默认文字样式"
+      "preset": "默认文字样式",
+      "presets": "默认文字样式"
     },
     "image": {
       "title": "图片",
