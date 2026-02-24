@@ -12,6 +12,6 @@ export default defineConfig(() => ({
     onDemand: true,
     format: 'esm',
   },
-  // Use relative paths for build assets
-  publicPath: './',
+  // Use relative paths for build assets in development, absolute in production
+  publicPath: process.env.NODE_ENV === 'production' ? '/fabritor-web/' : './',
 }));

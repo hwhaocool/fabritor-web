@@ -22,5 +22,25 @@ fixedHtml = fixedHtml.replace(
   '["layout","/fabritor-web/"]'
 );
 
+// Add basename to the app context in the inline script
+fixedHtml = fixedHtml.replace(
+  '"matchedIds":["layout","/fabritor-web/"],"documentOnly":true,"renderMode":"CSR"}',
+  '"matchedIds":["layout","/fabritor-web/"],"documentOnly":true,"renderMode":"CSR","basename":"/fabritor-web/"}'
+);
+
 fs.writeFileSync(indexPath, fixedHtml, 'utf8');
-console.log('Fixed routePath, loaderData, and matchedIds for GitHub Pages deployment');
+
+// Also need to add basename config to framework.js
+// Ice framework needs to know basename for routing
+const frameworkPath = path.join(__dirname, '../build/js/framework.js');
+let frameworkCode = fs.readFileSync(frameworkPath, 'utf8');
+
+// Add basename configuration before =b;
+frameworkCode = frameworkCode.replace(
+  'window.__ICE_APP_CONTEXT__=b;',
+  'b.basename="/fabritor-web/";window.__ICE_APP_CONTEXT__=b;'
+);
+
+fs.writeFileSync(frameworkPath, frameworkCode, 'utf8');
+
+console.log('Fixed routePath, loaderData, matchedIds, and added basename for GitHub Pages deployment');
