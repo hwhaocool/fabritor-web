@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Spin, Typography, Alert } from 'antd';
+import { Spin, Typography, Alert, Tabs } from 'antd';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Trans } from '@/i18n/utils';
@@ -8,67 +8,127 @@ import './index.scss';
 
 const { Title } = Typography;
 
+type MarkdownContent = {
+  content: string;
+  loading: boolean;
+  error: string;
+};
+
 export default function ApiPanel() {
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('api');
+  const [apiContent, setApiContent] = useState<MarkdownContent>({
+    content: '',
+    loading: true,
+    error: ''
+  });
+  const [jsonContent, setJsonContent] = useState<MarkdownContent>({
+    content: '',
+    loading: true,
+    error: ''
+  });
 
   useEffect(() => {
-    const loadMarkdown = async () => {
+    const loadApiMarkdown = async () => {
       try {
-        setLoading(true);
+        setApiContent(prev => ({ ...prev, loading: true }));
         const response = await fetch('/api.md');
         if (!response.ok) {
-          throw new Error('Failed to load markdown file');
+          throw new Error('Failed to load api.md file');
         }
         const text = await response.text();
-        setContent(text);
-        setError('');
+        setApiContent({ content: text, loading: false, error: '' });
       } catch (e) {
-        setError(e.message || 'Failed to load API documentation');
-        console.error('Failed to load markdown:', e);
-      } finally {
-        setLoading(false);
+        setApiContent({
+          content: '',
+          loading: false,
+          error: e.message || 'Failed to load API documentation'
+        });
+        console.error('Failed to load api.md:', e);
       }
     };
 
-    loadMarkdown();
+    loadApiMarkdown();
   }, []);
 
-  if (loading) {
-    return (
-      <div style={{ padding: 16, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-        <Spin />
-      </div>
-    );
-  }
+  useEffect(() => {
+    const loadJsonMarkdown = async () => {
+      try {
+        setJsonContent(prev => ({ ...prev, loading: true }));
+        const response = await fetch('/json.md');
+        if (!response.ok) {
+          throw new Error('Failed to load json.md file');
+        }
+        const text = await response.text();
+        setJsonContent({ content: text, loading: false, error: '' });
+      } catch (e) {
+        setJsonContent({
+          content: '',
+          loading: false,
+          error: e.message || 'Failed to load JSON documentation'
+        });
+        console.error('Failed to load json.md:', e);
+      }
+    };
 
-  if (error) {
-    return (
-      <div style={{ padding: 16 }}>
+    loadJsonMarkdown();
+  }, []);
+
+  const renderMarkdown = (data: MarkdownContent) => {
+    if (data.loading) {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+          <Spin />
+        </div>
+      );
+    }
+
+    if (data.error) {
+      return (
         <Alert
-          message={<Trans i18nKey="panel.api.load_error" />}
-          description={error}
+          message="加载失败"
+          description={data.error}
           type="error"
           showIcon
         />
+      );
+    }
+
+    return (
+      <div className="markdown-content" style={{
+        fontSize: 14,
+        lineHeight: 1.7
+      }}>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {data.content}
+        </ReactMarkdown>
       </div>
     );
-  }
+  };
+
+  const items = [
+    {
+      label: 'API',
+      key: 'api',
+      children: renderMarkdown(apiContent)
+    },
+    {
+      label: 'JSON',
+      key: 'json',
+      children: renderMarkdown(jsonContent)
+    }
+  ];
 
   return (
     <div style={{ padding: 16, height: '100%', overflow: 'auto' }}>
       <Title level={4} style={{ marginBottom: 16 }}>
         <Trans i18nKey="panel.api.title" />
       </Title>
-      <div className="markdown-content" style={{
-        fontSize: 14,
-        lineHeight: 1.7
-      }}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {content}
-        </ReactMarkdown>
-      </div>
+      <Tabs
+        activeKey={activeTab}
+        onChange={setActiveTab}
+        items={items}
+        style={{ height: 'calc(100% - 40px)' }}
+      />
     </div>
   );
 }

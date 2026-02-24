@@ -80,43 +80,6 @@ export default function JsonPanel() {
 
   return (
     <div style={{ padding: 16, display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <Text style={{ marginBottom: 16, display: 'block', fontWeight: 'bold' }}>
-        Canvas JSON Data
-      </Text>
-      {editing ? (
-        <TextArea
-          id="json-panel-textarea"
-          value={jsonString}
-          onChange={(e) => setJsonString(e.target.value)}
-          style={{
-            backgroundColor: '#fff',
-            padding: 12,
-            borderRadius: 4,
-            fontSize: 12,
-            overflow: 'auto',
-            flex: 1,
-            minHeight: '300px',
-            fontFamily: 'monospace'
-          }}
-        />
-      ) : (
-        <pre
-          id="json-panel-display"
-          style={{
-            backgroundColor: '#f5f5f5',
-            padding: 12,
-            borderRadius: 4,
-            fontSize: 12,
-            overflow: 'auto',
-            flex: 1,
-            minHeight: '300px',
-            margin: 0,
-            fontFamily: 'monospace'
-          }}
-        >
-          {jsonString}
-        </pre>
-      )}
       <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <Button
           id="json-panel-btn-copy"
@@ -154,6 +117,44 @@ export default function JsonPanel() {
           </Button>
         )}
       </div>
+      <Text style={{ marginBottom: 16, display: 'block', fontWeight: 'bold' }}>
+        Canvas JSON Data
+      </Text>
+      {editing ? (
+        <TextArea
+          id="json-panel-textarea"
+          value={jsonString}
+          onChange={(e) => setJsonString(e.target.value)}
+          style={{
+            backgroundColor: '#fff',
+            padding: 12,
+            borderRadius: 4,
+            fontSize: 12,
+            overflow: 'auto',
+            flex: 1,
+            minHeight: '300px',
+            fontFamily: 'monospace'
+          }}
+        />
+      ) : (
+        <pre
+          id="json-panel-display"
+          style={{
+            backgroundColor: '#f5f5f5',
+            padding: 12,
+            borderRadius: 4,
+            fontSize: 12,
+            overflow: 'auto',
+            flex: 1,
+            minHeight: '300px',
+            margin: 0,
+            fontFamily: 'monospace'
+          }}
+        >
+          {jsonString}
+        </pre>
+      )}
+      
     </div>
   );
 }

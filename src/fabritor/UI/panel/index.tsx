@@ -1,6 +1,6 @@
 import { Layout, Tabs, Flex, FloatButton } from 'antd';
-import React, { useContext, useState, useCallback } from 'react';
-import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, BookOutlined, ApiOutlined, ImportOutlined } from '@ant-design/icons';
+import React, { useContext, useState } from 'react';
+import { AlertOutlined, FileTextOutlined, PictureOutlined, BorderOutlined, BulbOutlined, AppstoreOutlined, GithubFilled, CodeOutlined, ApiOutlined, ImportOutlined } from '@ant-design/icons';
 import TextPanel from './TextPanel';
 import ImagePanel from './ImagePanel';
 import ShapePanel from './ShapePanel';
@@ -9,7 +9,6 @@ import DesignPanel from './DesignPanel';
 import { GloablStateContext } from '@/context';
 import AppPanel from './AppPanel';
 import JsonPanel from './JsonPanel';
-import TipsPanel from './TipsPanel';
 import ApiPanel from './ApiPanel';
 import ImportPanel from './ImportPanel';
 import { PANEL_WIDTH } from '@/config';
@@ -30,14 +29,6 @@ const siderStyle: React.CSSProperties = {
   backgroundColor: '#fff',
   borderRight: '1px solid #e8e8e8'
 };
-
-// Context for TipsPanel to communicate width changes
-export interface TipsPanelContextValue {
-  panelWidth: number;
-  onWidthChange: (width: number) => void;
-}
-
-export const TipsPanelContext = React.createContext<TipsPanelContextValue | null>(null);
 
 // @ts-ignore
 const iconStyle = { fontSize: 18, marginRight: 0 };
@@ -84,11 +75,6 @@ const OBJECT_TYPES = [
     icon: <ApiOutlined style={iconStyle} />
   },
   {
-    label: <Trans i18nKey="panel.tips.title" />,
-    value: 'tips',
-    icon: <BookOutlined style={iconStyle} />
-  },
-  {
     label: '导入',
     value: 'import',
     icon: <ImportOutlined style={iconStyle} />
@@ -98,19 +84,14 @@ const OBJECT_TYPES = [
 export default function Panel () {
   const { editor } = useContext(GloablStateContext);
   const [activeTab, setActiveTab] = useState('design');
-  const [tipsPanelWidth, setTipsPanelWidth] = useState(PANEL_WIDTH);
   const apiPanelContext = useContext(ApiPanelContext);
-  // API panel 和 Import panel 占满宽度
+  // API panel、Import panel 和 Json panel 占满宽度
   const apiPanelWidth = '100vw';
-
-  const handleWidthChange = useCallback((width: number) => {
-    setTipsPanelWidth(width);
-  }, []);
 
   const handleTabChange = (k: string) => {
     setActiveTab(k);
     if (apiPanelContext?.setApiPanelActive) {
-      apiPanelContext.setApiPanelActive(k === 'api' || k === 'import');
+      apiPanelContext.setApiPanelActive(k === 'api' || k === 'import' || k === 'json');
     }
     if (editor?.canvas) {
       if (k === 'paint') {
@@ -149,13 +130,6 @@ export default function Panel () {
     if (value === 'api') {
       return <ApiPanel />;
     }
-    if (value === 'tips') {
-      return (
-        <TipsPanelContext.Provider value={{ panelWidth: tipsPanelWidth, onWidthChange: handleWidthChange }}>
-          <TipsPanel />
-        </TipsPanelContext.Provider>
-      );
-    }
     return null;
   };
 
@@ -170,11 +144,8 @@ export default function Panel () {
 
   return (
     <Sider
-      style={{
-        ...siderStyle,
-        transition: activeTab === 'tips' ? 'none' : siderStyle.transition
-      }}
-      width={activeTab === 'tips' ? tipsPanelWidth : (activeTab === 'api' || activeTab === 'import') ? apiPanelWidth : PANEL_WIDTH}
+      style={siderStyle}
+      width={(activeTab === 'api' || activeTab === 'import' || activeTab === 'json') ? apiPanelWidth : PANEL_WIDTH}
       className="fabritor-sider"
     >
       <Tabs
