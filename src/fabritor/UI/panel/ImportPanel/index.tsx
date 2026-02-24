@@ -50,10 +50,9 @@ export default function ImportPanel() {
           fontSize: 12,
           overflow: 'auto',
           flex: 1,
-          minHeight: '600px',
           fontFamily: 'monospace'
         }}
-        rows={60}
+        rows={40}
         placeholder="请输入 JSON 数据..."
       />
       <div style={{ marginTop: 16 }}>
