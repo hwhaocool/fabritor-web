@@ -94,6 +94,8 @@ export default function Panel () {
   const [activeTab, setActiveTab] = useState('design');
   const [tipsPanelWidth, setTipsPanelWidth] = useState(PANEL_WIDTH);
   const apiPanelContext = useContext(ApiPanelContext);
+  // API panel 占满宽度，使用一个足够大的值
+  const apiPanelWidth = '100vw';
 
   const handleWidthChange = useCallback((width: number) => {
     setTipsPanelWidth(width);
@@ -163,7 +165,7 @@ export default function Panel () {
         ...siderStyle,
         transition: activeTab === 'tips' ? 'none' : siderStyle.transition
       }}
-      width={activeTab === 'tips' ? tipsPanelWidth : PANEL_WIDTH}
+      width={activeTab === 'tips' ? tipsPanelWidth : activeTab === 'api' ? apiPanelWidth : PANEL_WIDTH}
       className="fabritor-sider"
     >
       <Tabs
