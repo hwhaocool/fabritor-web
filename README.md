@@ -31,6 +31,8 @@ fabritor-web 图片编辑器
   </button>
 ```
 
+[api文档](./public/api.md)
+
 
 ## 以下是原版
 
