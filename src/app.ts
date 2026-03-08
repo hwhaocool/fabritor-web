@@ -8,6 +8,6 @@ import './font.css';
 export default defineAppConfig(() => ({
     // Set your configs here.
     router: {
-      basename: '/fabritor-web',
+      basename: '/fabritor-web/',
     },
   }));
