@@ -16,9 +16,19 @@ export default function Document() {
         <Meta />
         <Title />
         <Links />
+        {process.env.NODE_ENV === 'production' && (
+          <meta name="build-time" content={new Date().toISOString()} />
+        )}
       </head>
       <body>
         <Main />
+        {process.env.NODE_ENV === 'production' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.__BUILD_TIME__="${new Date().toISOString()}";`
+            }}
+          />
+        )}
         <Scripts />
       </body>
     </html>
