@@ -8,6 +8,9 @@ import './font.css';
 export default defineAppConfig(() => ({
     // Set your configs here.
     router: {
-      basename: '/fabritor-web',
+      // basename: '/fabritor-web',
+
+      // 开发环境不设置 basename，生产环境设置
+    basename: process.env.NODE_ENV === 'production' ? '/fabritor-web' : '/',
     },
   }));
