@@ -23,7 +23,6 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.1",
     "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1",
     "roughjs": "^4.6.6",
     "uuid": "^9.0.1"
   },
@@ -36,14 +35,20 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "eslint": "^8.35.0",
+    "rehype-sanitize": "^6.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "stylelint": "^15.2.0",
     "surge": "^0.23.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "unified": "^11.0.5"
   },
   "scripts": {
     "start": "ice start --speedup --no-open",
-    "build": "ice build",
-    "build:gh": "ice build && node scripts/fix-gh-pages.js",
+    "build": "node scripts/generate-markdown-html.mjs && ice build",
+    "build:gh": "node scripts/generate-markdown-html.mjs && ice build && node scripts/fix-gh-pages.js",
     "surge": "pnpm build && cd build && surge",
     "eslint": "eslint ./src --cache --ext .js,.jsx,.ts,.tsx",
     "eslint:fix": "pnpm run eslint -- --fix",
